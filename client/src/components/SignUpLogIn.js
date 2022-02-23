@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
+import "../SignUpLogIn.css";
 import axios from "axios";
 
 const SignUpLogIn = () => {
@@ -7,7 +8,11 @@ const SignUpLogIn = () => {
   const [redirect, setRedirect] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const handleClick = () => setToggler(!toggler);
+  const handleClick = () => {
+    setToggler(!toggler);
+    setUsername("");
+    setPassword("");
+  };
 
   const handleSignUp = () => {
     if (!username || !password) {
@@ -19,6 +24,7 @@ const SignUpLogIn = () => {
       .then((res) => {
         sessionStorage.setItem("accessToken", res.data.token);
         sessionStorage.setItem("UserId", res.data.id);
+        sessionStorage.setItem("UserName", username);
         alert(res.data.msg);
         setRedirect(true);
       })
@@ -36,6 +42,7 @@ const SignUpLogIn = () => {
         console.log(res.data);
         sessionStorage.setItem("accessToken", res.data.token);
         sessionStorage.setItem("UserId", res.data.id);
+        sessionStorage.setItem("UserName", username);
         setRedirect(true);
       })
       .catch((err) => {
@@ -46,78 +53,133 @@ const SignUpLogIn = () => {
 
   if (redirect) {
     return <Navigate to="/main" />;
-  } else if (toggler) {
-    return (
-      <div>
-        <h1 style={{ textAlign: "center" }}>Sign Up</h1>
-        <form
-          style={{
-            display: "grid",
-            justifyContent: "center",
-            marginTop: "50px",
-          }}
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <div>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div>
-            <button onClick={handleSignUp}>submit</button>
-            <button onClick={handleClick}>LogIn</button>
-          </div>
-        </form>
-      </div>
-    );
   } else {
     return (
-      <div>
-        <h1 style={{ textAlign: "center" }}>Log In</h1>
-        <form
-          style={{
-            display: "grid",
-            justifyContent: "center",
-            marginTop: "50px",
-          }}
-          onSubmit={(e) => e.preventDefault()}
+      <div className="outer-container">
+        <h1>Task Tracker 📝</h1>
+        <div
+          className={`container ${toggler && "right-panel-active"}`}
+          id="container"
         >
-          <div>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+          <div
+            className={`form-container sign-up-container  ${
+              !toggler && "fadeOut"
+            }`}
+          >
+            <form onSubmit={(e) => e.preventDefault()} className="form">
+              <h1 className="heading">Sign Up</h1>
+              <input
+                type="text"
+                placeholder="Username ..."
+                className="input"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Password ..."
+                className="input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button className="btn btn-reg" onClick={handleSignUp}>
+                Sign Up
+              </button>
+              <div className="contact-me">
+                <br />
+                <h3 className="details">Creator details :</h3>
+                <nav className="social-container">
+                  <a
+                    href="https://www.instagram.com/kesarwanipramil/"
+                    className="link social"
+                  >
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/pramil-kesarwani-10b374214/"
+                    className="link social"
+                  >
+                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                  </a>
+                  <a href="https://github.com/Pramil01" className="link social">
+                    <i class="fa fa-github" aria-hidden="true"></i>
+                  </a>
+                </nav>
+              </div>
+            </form>
           </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <div
+            className={`form-container sign-in-container ${
+              toggler && "fadeOut"
+            }`}
+          >
+            <form className="form" onSubmit={(e) => e.preventDefault()}>
+              <h1 className="heading"> Log In </h1>
+              <input
+                type="text"
+                placeholder="Username ..."
+                className="input"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Password..."
+                className="input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button className="btn btn-login" onClick={handleLogIn}>
+                Submit
+              </button>
+              <div className="contact-me">
+                <br />
+                <h3 className="details">Creator details :</h3>
+                <nav className="social-container">
+                  <a
+                    href="https://www.instagram.com/kesarwanipramil/"
+                    className="link social"
+                  >
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/pramil-kesarwani-10b374214/"
+                    className="link social"
+                  >
+                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                  </a>
+                  <a href="https://github.com/Pramil01" className="link social">
+                    <i class="fa fa-github" aria-hidden="true"></i>
+                  </a>
+                </nav>
+              </div>
+            </form>
           </div>
-          <div>
-            <button onClick={handleLogIn}>submit</button>
-            <button onClick={handleClick}>SignUp</button>
+          <div className="overlay-container">
+            <div className="overlay">
+              <div className="overlay-panel overlay-left">
+                <h1 className="heading">Welcome </h1>
+                <p className="para">
+                  To access all the features of the site, first log in to the
+                  site
+                </p>
+                <button className="btn ghost" id="signIn" onClick={handleClick}>
+                  LogIn
+                </button>
+              </div>
+              <div className="overlay-panel overlay-right">
+                <h1 className="heading">Welcome </h1>
+                <p className="para">
+                  If you are not registered, register yourself in less than 1
+                  minute
+                </p>
+                <button className="btn ghost" id="signUp" onClick={handleClick}>
+                  Sign Up
+                </button>
+              </div>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     );
   }

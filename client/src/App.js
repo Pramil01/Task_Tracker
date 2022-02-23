@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./components/Main";
 import SignUpLogIn from "./components/SignUpLogIn";
+// import NavBar from "./components/Navbar";
 
 const App = () => {
   return (
